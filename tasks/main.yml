@@ -1,0 +1,88 @@
+---
+# Get Node ID and save fact
+- name: Get the node ID via cometbft show-node-id
+  ansible.builtin.command: >
+    docker run --rm
+    -v {{ cometbft_home }}:/cometbft
+    -e CMTHOME=/cometbft
+    {{ cometbft_docker_image }}
+    show-node-id
+  register: nodeid_cmd
+  changed_when: false
+
+- name: Save the node ID as a fact
+  ansible.builtin.set_fact:
+    cometbft_node_id: "{{ nodeid_cmd.stdout }}"
+
+# Build peer lists based on role and partner/group
+- name: Initialise peer lists
+  ansible.builtin.set_fact:
+    cometbft_persistent_peers_list: []
+    cometbft_unconditional_peers_list: []
+
+# Validators: all sentries can be added as peers
+- name: Add all sentries as peers to all validators
+  ansible.builtin.set_fact:
+    cometbft_persistent_peers_list: >-
+      {{ cometbft_persistent_peers_list
+         + [ hostvars[item].cometbft_node_id ~ '@'
+             ~ hostvars[item].ansible_host ~ ':26656' ] }}
+    cometbft_unconditional_peers_list: >-
+      {{ cometbft_unconditional_peers_list + [ hostvars[item].cometbft_node_id ] }}
+  loop: "{{ groups['cometbft_sentries'] | default([]) }}"
+  when: cometbft_role == 'validator'
+
+# Sentries: they peer with their own validator
+- name: Add partner validator to sentry as peer
+  ansible.builtin.set_fact:
+    cometbft_persistent_peers_list: >-
+      {{ cometbft_persistent_peers_list
+         + [ hostvars[cometbft_partner].cometbft_node_id ~ '@'
+             ~ hostvars[cometbft_partner].ansible_host ~ ':26656' ] }}
+    cometbft_unconditional_peers_list: >-
+      {{ cometbft_unconditional_peers_list
+         + [ hostvars[cometbft_partner].cometbft_node_id ] }}
+  when: cometbft_role == 'sentry'
+
+# Sentries also can add each other as peers
+- name: Add all other sentries as peers
+  ansible.builtin.set_fact:
+    cometbft_persistent_peers_list: >-
+      {{ cometbft_persistent_peers_list
+         + [ hostvars[item].cometbft_node_id ~ '@'
+             ~ hostvars[item].ansible_host ~ ':26656' ] }}
+    cometbft_unconditional_peers_list: >-
+      {{ cometbft_unconditional_peers_list + [ hostvars[item].cometbft_node_id ] }}
+  loop: "{{ groups['cometbft_sentries'] | difference([inventory_hostname]) | default([]) }}"
+  when: cometbft_role == 'sentry'
+
+- name: Finalise the peer config strings accordingly
+  ansible.builtin.set_fact:
+    cometbft_persistent_peers: "{{ cometbft_persistent_peers_list | join(',') }}"
+    cometbft_unconditional_peer_ids: "{{ cometbft_unconditional_peers_list | join(',') }}"
+    cometbft_private_peer_ids: >-
+      {{ hostvars[cometbft_partner].cometbft_node_id if cometbft_role == 'sentry' else '' }}
+
+
+# Now we can render the configs and docker compose files
+
+- name: Render cometbft config.toml
+  ansible.builtin.template:
+    src: config.toml.j2
+    dest: "{{ cometbft_home }}/config/config.toml"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Render cometbft docker-compose.yml
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ cometbft_home }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Start CometBFT via Docker Compose
+  ansible.builtin.command: docker compose up -d
+  args:
+    chdir: "{{ cometbft_home }}"

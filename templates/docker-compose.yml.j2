@@ -1,0 +1,16 @@
+services:
+  cometbft:
+    image: "{{ cometbft_docker_image }}"
+    container_name: "cometbft-{{ cometbft_role }}"
+    restart: unless-stopped
+    network_mode: "host"
+
+    volumes:
+      - "{{ cometbft_home }}:/cometbft"
+
+    environment:
+      - CMTHOME=/cometbft
+
+    command:
+      - "node"
+      - "--proxy_app=kvstore"

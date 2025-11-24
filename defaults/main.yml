@@ -1,0 +1,23 @@
+---
+
+# Version
+cometbft_version: "v0.38.19"
+
+# Where the node home lives on each machine
+cometbft_home: "/opt/cometbft"
+
+# Where to build one-time testnet config on the control node (localhost, usually)
+cometbft_testnet_dir: "/tmp/comet-testnet"
+
+# Docker image
+cometbft_docker_image: "cometbft/cometbft:{{ cometbft_version }}"
+
+# You should set the below to either 'validator' or 'sentry' depending on the
+# specific node's role
+#
+# cometbft_role:
+
+# Don't forget to also set these for each node as well:
+#
+# cometbft_node_index:
+# cometbft_partner:
