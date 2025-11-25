@@ -1,7 +1,7 @@
 ---
 
 # Version
-cometbft_version: "v0.38.19"
+cometbft_version: "0.38.19"
 
 # Where the node home lives on each machine
 cometbft_home: "/opt/cometbft"
@@ -10,7 +10,7 @@ cometbft_home: "/opt/cometbft"
 cometbft_testnet_dir: "/tmp/comet-testnet"
 
 # Docker image
-cometbft_docker_image: "cometbft/cometbft:{{ cometbft_version }}"
+cometbft_docker_image: "cometbft/cometbft:v{{ cometbft_version }}"
 
 # You should set the below to either 'validator' or 'sentry' depending on the
 # specific node's role
@@ -21,3 +21,114 @@ cometbft_docker_image: "cometbft/cometbft:{{ cometbft_version }}"
 #
 # cometbft_node_index:
 # cometbft_partner:
+
+# The below are for the config.toml. See comments in that file for explanations.
+cometbft_proxy_app: "tcp://127.0.0.1:26658"
+cometbft_moniker: "node{{ cometbft_node_index }}"
+cometbft_db_backend: "goleveldb"
+cometbft_db_dir: "data"
+cometbft_log_level: "info"
+cometbft_log_format: "plain"
+cometbft_genesis_file: "config/genesis.json"
+cometbft_priv_validator_key_file: "config/priv_validator_key.json"
+cometbft_priv_validator_state_file: "data/priv_validator_state.json"
+cometbft_priv_validator_laddr: ""
+cometbft_node_key_file: "config/node_key.json"
+cometbft_abci: "socket"
+cometbft_filter_peers: "false"
+
+cometbft_rpc_cors_allowed_origins: []
+cometbft_rpc_cors_allowed_methods:
+  - "HEAD"
+  - "GET"
+  - "POST"
+cometbft_rpc_cors_allowed_headers:
+  - "Origin"
+  - "Accept"
+  - "Content-Type"
+  - "X-Requested-With"
+  - "X-Server-Time"
+cometbft_rpc_grpc_laddr: ""
+cometbft_rpc_grpc_max_open_connections: 900
+cometbft_rpc_unsafe: "false"
+cometbft_rpc_max_open_connections: 900
+cometbft_rpc_max_subscription_clients: 100
+cometbft_rpc_max_subscriptions_per_client: 5
+cometbft_rpc_experimental_subscription_buffer_size: 200
+cometbft_rpc_experimental_websocket_write_buffer_size: 200
+cometbft_rpc_experimental_close_on_slow_client: "false"
+cometbft_rpc_timeout_broadcast_tx_commit: "10s"
+cometbft_rpc_max_request_batch_size: 10
+cometbft_rpc_max_body_bytes: 1000000
+cometbft_rpc_max_header_bytes: 1048576
+cometbft_rpc_tls_cert_file: ""
+cometbft_rpc_tls_key_file: ""
+cometbft_rpc_pprof_laddr: ""
+
+cometbft_p2p_laddr: "tcp://0.0.0.0:26656"
+cometbft_p2p_seeds: ""
+cometbft_p2p_addr_book_file: "config/addrbook.json"
+cometbft_p2p_addr_book_strict: "false"
+cometbft_p2p_max_num_inbound_peers: 40
+cometbft_p2p_max_num_outbound_peers: 10
+cometbft_p2p_persistent_peers_max_dial_period: "0s"
+cometbft_p2p_flush_throttle_timeout: "100ms"
+cometbft_p2p_max_packet_msg_payload_size: 1024
+cometbft_p2p_send_rate: 5120000
+cometbft_p2p_recv_rate: 5120000
+cometbft_p2p_seed_mode: "false"
+cometbft_p2p_allow_duplicate_ip: "true"
+cometbft_p2p_handshake_timeout: "20s"
+cometbft_p2p_dial_timeout: "3s"
+
+cometbft_mempool_type: "flood"
+cometbft_mempool_recheck: "true"
+cometbft_mempool_recheck_timeout: "1s"
+cometbft_mempool_broadcast: "true"
+cometbft_mempool_wal_dir: ""
+cometbft_mempool_size: 5000
+cometbft_mempool_max_txs_bytes: 1073741824
+cometbft_mempool_cache_size: 10000
+cometbft_mempool_keep_invalid_txs_in_cache: "false"
+cometbft_mempool_max_tx_bytes: 1048576
+cometbft_mempool_max_batch_bytes: 0
+cometbft_mempool_experimental_max_gossip_connections_to_persistent_peers: 0
+cometbft_mempool_experimental_max_gossip_connections_to_non_persistent_peers: 0
+
+cometbft_statesync_enable: "false"
+cometbft_statesync_rpc_servers: ""
+cometbft_statesync_trust_height: 0
+cometbft_statesync_trust_hash: ""
+cometbft_statesync_trust_period: "168h0m0s"
+cometbft_statesync_discovery_time: "15s"
+cometbft_statesync_temp_dir: ""
+cometbft_statesync_chunk_request_timeout: "10s"
+cometbft_statesync_chunk_fetchers: "4"
+
+cometbft_blocksync_version: "v0"
+
+cometbft_consensus_wal_file: "data/cs.wal/wal"
+cometbft_consensus_timeout_propose: "3s"
+cometbft_consensus_timeout_propose_delta: "500ms"
+cometbft_consensus_timeout_prevote: "1s"
+cometbft_consensus_timeout_prevote_delta: "500ms"
+cometbft_consensus_timeout_precommit: "1s"
+cometbft_consensus_timeout_precommit_delta: "500ms"
+cometbft_consensus_timeout_commit: "1s"
+cometbft_consensus_double_sign_check_height: 10
+cometbft_consensus_skip_timeout_commit: "false"
+cometbft_consensus_create_empty_blocks: "true"
+cometbft_consensus_create_empty_blocks_interval: "0s"
+cometbft_consensus_peer_gossip_sleep_duration: "100ms"
+cometbft_consensus_peer_query_maj23_sleep_duration: "2s"
+
+cometbft_storage_discard_abci_responses: "false"
+
+cometbft_tx_index_indexer: "kv"
+cometbft_storage_psql_conn: ""
+
+cometbft_instrumentation_prometheus: "false"
+cometbft_instrumentation_prometheus_listen_addr: ":26660"
+cometbft_instrumentation_max_open_connections: 3
+cometbft_instrumentation_namespace: "cometbft"
+
