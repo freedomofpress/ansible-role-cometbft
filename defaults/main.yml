@@ -125,7 +125,7 @@ cometbft_consensus_peer_query_maj23_sleep_duration: "2s"
 cometbft_storage_discard_abci_responses: "false"
 
 cometbft_tx_index_indexer: "kv"
-cometbft_storage_psql_conn: ""
+cometbft_tx_index_psql_conn: ""
 
 cometbft_instrumentation_prometheus: "false"
 cometbft_instrumentation_prometheus_listen_addr: ":26660"
