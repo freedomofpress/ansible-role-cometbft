@@ -416,7 +416,7 @@ timeout_prevote = "{{ cometbft_consensus_timeout_prevote }}"
 # How much the timeout_prevote increases with each round
 timeout_prevote_delta = "{{ cometbft_consensus_timeout_prevote_delta }}"
 # How long we wait after receiving +2/3 precommits for “anything” (ie. not a single block or nil)
-timeout_precommit = "{{  cometbft_consensus_timeout_precommit }}"
+timeout_precommit = "{{ cometbft_consensus_timeout_precommit }}"
 # How much the timeout_precommit increases with each round
 timeout_precommit_delta = "{{ cometbft_consensus_timeout_precommit_delta }}"
 # How long we wait after committing a block, before starting on the new
@@ -435,7 +435,7 @@ skip_timeout_commit = {{ cometbft_consensus_skip_timeout_commit }}
 
 # EmptyBlocks mode and possible interval between empty blocks
 create_empty_blocks = {{ cometbft_consensus_create_empty_blocks }}
-create_empty_blocks_interval = "{{  cometbft_consensus_create_empty_blocks_interval }}"
+create_empty_blocks_interval = "{{ cometbft_consensus_create_empty_blocks_interval }}"
 
 # Reactor sleep duration parameters
 peer_gossip_sleep_duration = "{{ cometbft_consensus_peer_gossip_sleep_duration }}"
@@ -472,7 +472,7 @@ indexer = "{{ cometbft_tx_index_indexer }}"
 
 # The PostgreSQL connection configuration, the connection format:
 #   postgresql://<user>:<password>@<host>:<port>/<db>?<opts>
-psql-conn = "{{ cometbft_storage_psql_conn }}"
+psql-conn = "{{ cometbft_tx_index_psql_conn }}"
 
 #######################################################
 ###       Instrumentation Configuration Options     ###

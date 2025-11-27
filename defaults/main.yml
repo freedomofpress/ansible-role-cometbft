@@ -12,6 +12,15 @@ cometbft_testnet_dir: "/tmp/comet-testnet"
 # Docker image
 cometbft_docker_image: "cometbft/cometbft:v{{ cometbft_version }}"
 
+# Docker restart policy
+cometbft_docker_restart: unless-stopped
+
+# Docker network mode
+cometbft_docker_network_mode: host
+
+# This is your ABCi app you want to run with cometbft
+cometbft_proxy_app: kvstore
+
 # You should set the below to either 'validator' or 'sentry' depending on the
 # specific node's role
 #
@@ -125,7 +134,7 @@ cometbft_consensus_peer_query_maj23_sleep_duration: "2s"
 cometbft_storage_discard_abci_responses: "false"
 
 cometbft_tx_index_indexer: "kv"
-cometbft_storage_psql_conn: ""
+cometbft_tx_index_psql_conn: ""
 
 cometbft_instrumentation_prometheus: "false"
 cometbft_instrumentation_prometheus_listen_addr: ":26660"
