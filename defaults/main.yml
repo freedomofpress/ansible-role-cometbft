@@ -18,9 +18,6 @@ cometbft_docker_restart: unless-stopped
 # Docker network mode
 cometbft_docker_network_mode: host
 
-# This is your ABCi app you want to run with cometbft
-cometbft_proxy_app: kvstore
-
 # You should set the below to either 'validator' or 'sentry' depending on the
 # specific node's role
 #
