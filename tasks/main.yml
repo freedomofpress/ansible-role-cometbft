@@ -82,6 +82,16 @@
     group: root
     mode: "0644"
 
+- name: Check if Docker network exists
+  ansible.builtin.command: "docker network inspect {{ cometbft_docker_network }}"
+  register: cometbft_docker_net_inspect
+  failed_when: cometbft_docker_net_inspect.rc not in [0, 1]
+  changed_when: false
+
+- name: Create the Docker network in advance of CometBFT starting
+  ansible.builtin.command: "docker network create {{ cometbft_docker_network }}"
+  when: cometbft_docker_net_inspect.rc == 1 and cometbft_docker_setup_network
+
 - name: Start CometBFT via Docker Compose
   ansible.builtin.command: docker compose up -d
   args:

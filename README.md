@@ -115,5 +115,6 @@ cometbft_partner: "my-validator-1"
   hosts: "cometbft_validators:cometbft_sentries"
   become: true
   roles:
+    - ansible-role-felidae # optional, if you are using our ABCI app
     - ansible-role-cometbft
 ```
