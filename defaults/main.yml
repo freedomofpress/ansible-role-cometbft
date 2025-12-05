@@ -15,8 +15,29 @@ cometbft_docker_image: "cometbft/cometbft:v{{ cometbft_version }}"
 # Docker restart policy
 cometbft_docker_restart: unless-stopped
 
-# Docker network mode
-cometbft_docker_network_mode: host
+# Docker network name. In our set up, this is created by the ABCI app's Ansible
+# role, and if using it, you should put the same name in both places.
+cometbft_docker_network: webcat
+
+# Whether to set up our own docker network rather than use the one managed
+# by Felidae (as above). If you aren't using Felidae and are shipping an ABCI
+# app of your own in some other way topographically, you may want to set this to
+# true.
+cometbft_docker_setup_network: false
+
+# External port. You might open this to the outside world on the sentries,
+# but on the validators, they should only accept traffic from the sentries
+# on this port and from no-one else.
+cometbft_p2p_external_port: 26656
+
+# Internal port
+cometbft_p2p_internal_port: 26656
+
+# RPC external port. Note that in the docker-compose.yml file we deliberately
+# bind this to localhost on the host as it should not normally be accessible to
+# the outside world.
+cometbft_rpc_external_port: 26657
+cometbft_rpc_internal_port: 26657
 
 # You should set the below to either 'validator' or 'sentry' depending on the
 # specific node's role

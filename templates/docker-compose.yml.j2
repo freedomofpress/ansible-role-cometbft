@@ -3,8 +3,8 @@ services:
     image: {{ cometbft_docker_image }}
     container_name: "cometbft-{{ cometbft_role }}"
     restart: {{ cometbft_docker_restart }}
-    network_mode: "{{ cometbft_docker_network_mode }}"
-
+    networks:
+      - {{ cometbft_docker_network }}
     volumes:
       - "{{ cometbft_home }}:/cometbft"
 
@@ -13,3 +13,12 @@ services:
 
     command:
       - "node"
+
+    ports:
+      - "{{ cometbft_p2p_external_port }}:{{ cometbft_p2p_internal_port }}"
+      - "127.0.0.1:{{ cometbft_rpc_external_port }}:{{ cometbft_rpc_internal_port }}"
+
+networks:
+  {{ cometbft_docker_network }}:
+    external: true
+    name: {{ cometbft_docker_network }}
