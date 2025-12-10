@@ -71,7 +71,7 @@
     path: "{{ item }}"
     owner: 100
     group: 105
-    recursive: true
+    recurse: true
   loop:
     - "{{ cometbft_home }}/config"
     - "{{ cometbft_home }}/data"
