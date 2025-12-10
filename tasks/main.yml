@@ -68,13 +68,13 @@
 
 - name: Ensure cometbft config and data dirs are owned by 100:105
   ansible.builtin.file:
-    src: "{{ item }}
+    src: "{{ item }}"
     owner: 100
     group: 105
     recursive: true
   loop:
-    - "{{ cometbft_home }}/config }}"
-    - "{{ cometbft_home }}/data }}"
+    - "{{ cometbft_home }}/config"
+    - "{{ cometbft_home }}/data"
 
 - name: Render cometbft config.toml
   ansible.builtin.template:
