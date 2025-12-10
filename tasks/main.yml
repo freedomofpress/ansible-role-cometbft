@@ -68,7 +68,7 @@
 
 - name: Ensure cometbft config and data dirs are owned by 100:105
   ansible.builtin.file:
-    src: "{{ item }}"
+    path: "{{ item }}"
     owner: 100
     group: 105
     recursive: true
