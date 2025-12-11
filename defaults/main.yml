@@ -33,9 +33,14 @@ cometbft_p2p_external_port: 26656
 # Internal port
 cometbft_p2p_internal_port: 26656
 
-# RPC external port. Note that in the docker-compose.yml file we deliberately
+# RPC host and ports. Note that in the docker-compose.yml file we deliberately
 # bind this to localhost on the host as it should not normally be accessible to
 # the outside world.
+# However, we set the host *internally* (inside the container) to 0.0.0.0 which
+# allows felidae to query the interface from its own container across the
+# Docker bridge network (same as why felidae runs on 0.0.0.0 so that CometBFT
+# can connect to tcp://felidae:26658 via the bridge network as its proxyapp)
+cometbft_rpc_internal_host: 0.0.0.0
 cometbft_rpc_external_port: 26657
 cometbft_rpc_internal_port: 26657
 

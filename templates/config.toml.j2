@@ -87,7 +87,7 @@ filter_peers = {{ cometbft_filter_peers }}
 [rpc]
 
 # TCP or UNIX socket address for the RPC server to listen on
-laddr = "tcp://{{ '0.0.0.0' if cometbft_role == 'sentry' else '127.0.0.1' }}:{{ cometbft_rpc_internal_port }}"
+laddr = "tcp://{{ cometbft_rpc_internal_host }}:{{ cometbft_rpc_internal_port }}"
 
 # A list of origins a cross-domain request can be executed from
 # Default value '[]' disables cors support
