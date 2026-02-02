@@ -66,11 +66,11 @@
 
 # Now we can render the configs and docker compose files
 
-- name: Ensure cometbft config and data dirs are owned by 100:105
+- name: Ensure cometbft config and data dirs are owned by the tmuser user/group inside the container
   ansible.builtin.file:
     path: "{{ item }}"
-    owner: 100
-    group: 105
+    owner: 101
+    group: 1000
     recurse: true
   loop:
     - "{{ cometbft_home }}/config"
@@ -80,8 +80,8 @@
   ansible.builtin.template:
     src: config.toml.j2
     dest: "{{ cometbft_home }}/config/config.toml"
-    owner: 100
-    group: 105
+    owner: 101
+    group: 1000
     mode: "0644"
 
 - name: Render cometbft docker-compose.yml
