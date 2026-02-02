@@ -387,6 +387,9 @@ chunk_request_timeout = "{{ cometbft_statesync_chunk_request_timeout }}"
 # The number of concurrent chunk fetchers to run (default: 1).
 chunk_fetchers = "{{ cometbft_statesync_chunk_fetchers }}"
 
+# Maximum number of chunks allowed in a snapshot (default: 100000).
+max_snapshot_chunks = {{ cometbft_statesync_max_snapshot_chunks }}
+
 #######################################################
 ###       Block Sync Configuration Options          ###
 #######################################################
