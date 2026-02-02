@@ -136,6 +136,7 @@ cometbft_statesync_discovery_time: "15s"
 cometbft_statesync_temp_dir: ""
 cometbft_statesync_chunk_request_timeout: "10s"
 cometbft_statesync_chunk_fetchers: "4"
+cometbft_statesync_max_snapshot_chunks: "100000"
 
 cometbft_blocksync_version: "v0"
 
