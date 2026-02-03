@@ -5,6 +5,7 @@
     docker run --rm
     -v {{ cometbft_home }}:/cometbft
     -e CMTHOME=/cometbft
+    --entrypoint cometbft
     {{ cometbft_docker_image }}
     show-node-id
   register: nodeid_cmd
@@ -63,14 +64,13 @@
     cometbft_private_peer_ids: >-
       {{ hostvars[cometbft_partner].cometbft_node_id if cometbft_role == 'sentry' else '' }}
 
-
 # Now we can render the configs and docker compose files
 
 - name: Ensure cometbft config and data dirs are owned by the tmuser user/group inside the container
   ansible.builtin.file:
     path: "{{ item }}"
-    owner: 101
-    group: 1000
+    owner: "{{ cometbft_uid }}"
+    group: "{{ cometbft_gid }}"
     recurse: true
   loop:
     - "{{ cometbft_home }}/config"
@@ -80,8 +80,8 @@
   ansible.builtin.template:
     src: config.toml.j2
     dest: "{{ cometbft_home }}/config/config.toml"
-    owner: 101
-    group: 1000
+    owner: "{{ cometbft_uid }}"
+    group: "{{ cometbft_gid }}"
     mode: "0644"
 
 - name: Render cometbft docker-compose.yml

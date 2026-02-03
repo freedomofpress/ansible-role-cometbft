@@ -7,9 +7,11 @@ services:
       - {{ cometbft_docker_network }}
     volumes:
       - "{{ cometbft_home }}:/cometbft"
-
     environment:
       - CMTHOME=/cometbft
+
+    entrypoint:
+      - "cometbft"
 
     command:
       - "node"

@@ -44,6 +44,12 @@ cometbft_rpc_internal_host: 0.0.0.0
 cometbft_rpc_external_port: 26657
 cometbft_rpc_internal_port: 26657
 
+# The UID and GID for file ownership within the container.
+# The upstream `docker.io/library/cometbft` container uses 101:1000,
+# whereas the FPF-maintained bundled container uses 1000:1000.
+cometbft_uid: 101
+cometbft_gid: 1000
+
 # You should set the below to either 'validator' or 'sentry' depending on the
 # specific node's role
 #
